@@ -28,7 +28,7 @@ Check `Add Python to environment variables` in `Advanced Options` when installin
 
 You can leave everything on default when installing Git.
 
-After downloading an FFmpeg Windows build from the official website or directly from [here](https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-full.7z), unpack the archive and put the extracted folder inside `ytdownloader_GUI`. Your `FFmpeg path` will be `<NAME_OF_EXTRACTED_FOLDER>\bin\ffmpeg.exe`.
+After downloading an FFmpeg Windows build from the official website or directly from [here](https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-full.7z), unpack the archive and put the extracted folder inside `ytdownloader_GUI`. Your FFmpeg path will be `<NAME_OF_EXTRACTED_FOLDER>\bin\ffmpeg.exe`.
 
 ### For Linux users
 
