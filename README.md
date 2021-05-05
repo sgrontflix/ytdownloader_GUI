@@ -8,14 +8,14 @@ Run the following commands:
 
 ```
 python -m pip install git+https://github.com/nficano/pytube
-git clone https://github.com/sgrontflix/ytdownloader
+git clone https://github.com/sgrontflix/ytdownloader_GUI
 ```
 
 or 
 
 ```
 python3 -m pip install git+https://github.com/nficano/pytube
-git clone https://github.com/sgrontflix/ytdownloader
+git clone https://github.com/sgrontflix/ytdownloader_GUI
 ```
 
 And get [FFmpeg](https://ffmpeg.org/download.html).
