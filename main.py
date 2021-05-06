@@ -63,8 +63,8 @@ def execute_download():
     console_output.config(state='disabled')
 
     enable_gpu = ' -hwaccel cuda -hwaccel_output_format cuda'
-    merge_command = ffmpeg_path.get() + ' -y' + (enable_gpu if gpu.get() else '') + \
-        ' -hide_banner -loglevel panic -i video.mp4 -i audio.mp4 -c:v copy -c:a copy'
+    merge_command = '\"' + ffmpeg_path.get() + '\" -y' + (enable_gpu if gpu.get() else '') + \
+                    ' -hide_banner -loglevel panic -i video.mp4 -i audio.mp4 -c:v copy -c:a copy'
 
     if not youtube_url_validation(yt_url.get()):
         messagebox.showerror('ERROR', 'Invalid URL detected')
