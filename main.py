@@ -119,7 +119,7 @@ if __name__ == '__main__':
     root = tk.Tk()
 
     root.title('YouTube downloader by sgrontflix')
-    root.option_add('*Font', '26')
+    root.option_add('*Font', 'Arial 16')
     root.geometry('600x450')
     root.resizable(0, 0)
 
