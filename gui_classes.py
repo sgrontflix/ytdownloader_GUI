@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import Menu
 
 
 # file-like object
@@ -50,3 +51,30 @@ class DTEntry(tk.Entry):
             self.config(fg='grey')
             # insert default text
             self.insert(0, self.default_text)
+
+
+class ContextMenu:
+    def __init__(self, widgets, master=None, tearoff=False):
+        # create context menu
+        self.menu = Menu(master, tearoff=tearoff)
+
+        # add commands
+        self.menu.add_command(label="Cut")
+        self.menu.add_command(label="Copy")
+        self.menu.add_command(label="Paste")
+
+        # bind right click to show() method
+        for widget in widgets:
+            widget.bind("<Button-3><ButtonRelease-3>", self.show)
+
+    def show(self, event):
+        # master becomes the widget that triggered the event
+        master = event.widget
+
+        # add functionality to commands
+        self.menu.entryconfigure("Cut", command=lambda: master.event_generate("<<Cut>>"))
+        self.menu.entryconfigure("Copy", command=lambda: master.event_generate("<<Copy>>"))
+        self.menu.entryconfigure("Paste", command=lambda: master.event_generate("<<Paste>>"))
+
+        # draw context menu on screen
+        self.menu.tk.call("tk_popup", self.menu, event.x_root, event.y_root)
