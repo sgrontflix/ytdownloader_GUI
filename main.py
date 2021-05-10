@@ -173,6 +173,6 @@ if __name__ == '__main__':
     sys.stderr = sr
 
     # add context menu to yt_url and ffmpeg_path
-    menu = ContextMenu([yt_url, ffmpeg_path], root, tearoff=False)
+    menu = ContextMenu([yt_url, ffmpeg_path], root)
 
     root.mainloop()
