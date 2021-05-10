@@ -59,22 +59,22 @@ class ContextMenu:
         self.menu = Menu(master, tearoff=tearoff)
 
         # add commands
-        self.menu.add_command(label="Cut")
-        self.menu.add_command(label="Copy")
-        self.menu.add_command(label="Paste")
+        self.menu.add_command(label='Cut')
+        self.menu.add_command(label='Copy')
+        self.menu.add_command(label='Paste')
 
         # bind right click to show() method
         for widget in widgets:
-            widget.bind("<Button-3><ButtonRelease-3>", self.show)
+            widget.bind('<Button-3><ButtonRelease-3>', self.show)
 
     def show(self, event):
         # master becomes the widget that triggered the event
         master = event.widget
 
         # add functionality to commands
-        self.menu.entryconfigure("Cut", command=lambda: master.event_generate("<<Cut>>"))
-        self.menu.entryconfigure("Copy", command=lambda: master.event_generate("<<Copy>>"))
-        self.menu.entryconfigure("Paste", command=lambda: master.event_generate("<<Paste>>"))
+        self.menu.entryconfigure('Cut', command=lambda: master.event_generate('<<Cut>>'))
+        self.menu.entryconfigure('Copy', command=lambda: master.event_generate('<<Copy>>'))
+        self.menu.entryconfigure('Paste', command=lambda: master.event_generate('<<Paste>>'))
 
         # draw context menu on screen
         self.menu.tk_popup(event.x_root, event.y_root)
