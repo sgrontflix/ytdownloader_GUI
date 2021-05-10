@@ -41,15 +41,16 @@ def remove_files(files):
     Removes all files inside the list passed as argument
 
     :param files: list containing files to remove
-    :return: True if all files are successfully deleted, False if they're not
+    :return: list of files that couldn't be deleted
     """
-    for file in files:
+    for file in list(files):
         try:
             os.remove(file)
+            files.remove(file)
         except OSError:
-            return False
+            pass
 
-    return True
+    return files
 
 
 def print_status(string): print('[*] ' + string)
