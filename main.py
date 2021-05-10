@@ -103,20 +103,31 @@ def execute_download():
 
     if audio_only.get():
         print_status('Downloading audio track...')
-        audio_track.download()
-        print_good('Audio track successfully downloaded.')
+        audio_path = audio_track.download()
+        if audio_track.exists_at_path(audio_path):
+            print_good('Audio track successfully downloaded.')
+        else:
+            print_error('Couldn\'t download audio track.')
     else:
         video_track = yt.streams.filter(progressive=False, file_extension='mp4').order_by('resolution')[-1]
         # remove all forbidden characters from the title so the script doesn't crash
         title = sanitize_string(video_track.title)
 
         print_status('Downloading video.mp4...')
-        video_track.download(filename='video')
-        print_good('video.mp4 successfully downloaded.')
+        video_path = video_track.download(filename='video')
+        if video_track.exists_at_path(video_path):
+            print_good('video.mp4 successfully downloaded.')
+        else:
+            print_error('Couldn\'t download video.mp4.')
+            return
 
         print_status('Downloading audio.mp4...')
-        audio_track.download(filename='audio')
-        print_good('audio.mp4 successfully downloaded.')
+        audio_path = audio_track.download(filename='audio')
+        if audio_track.exists_at_path(audio_path):
+            print_good('audio.mp4 successfully downloaded.')
+        else:
+            print_error('Couldn\'t download audio.mp4.')
+            return
 
         print_status('Merging tracks...')
         try:
@@ -128,7 +139,7 @@ def execute_download():
         # delete redundant video and audio tracks
         print_status('Deleting redundant audio and video tracks...')
         result = remove_files(['video.mp4', 'audio.mp4'])
-        if result == 0:
+        if result:
             print_good('Tracks successfully deleted.')
         else:
             print_error(f'Couldn\'t delete one or more tracks.')
