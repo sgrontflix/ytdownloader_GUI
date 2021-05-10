@@ -77,4 +77,4 @@ class ContextMenu:
         self.menu.entryconfigure("Paste", command=lambda: master.event_generate("<<Paste>>"))
 
         # draw context menu on screen
-        self.menu.tk.call("tk_popup", self.menu, event.x_root, event.y_root)
+        self.menu.tk_popup(event.x_root, event.y_root)
