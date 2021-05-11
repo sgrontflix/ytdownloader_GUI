@@ -34,12 +34,9 @@ def handle_download():
 
     :return: None
     """
-    yt_url.config(state='disabled')
-    ffmpeg_path.config(state='disabled')
-    browse_button.config(state='disabled')
-    gpu_checkbox.config(state='disabled')
-    audio_only_checkbox.config(state='disabled')
-    download_button.config(state='disabled')
+    for widget in root.winfo_children():
+        if not isinstance(widget, tk.Label) and not isinstance(widget, tk.Text) and not isinstance(widget, tk.Menu):
+            widget.config(state='disabled')
 
     dl = Thread(target=execute_download)
     dl.start()
@@ -60,12 +57,9 @@ def monitor_download(thread):
     if thread.is_alive():
         root.after(100, lambda: monitor_download(thread))
     else:
-        download_button.config(state='normal')
-        audio_only_checkbox.config(state='normal')
-        gpu_checkbox.config(state='normal')
-        browse_button.config(state='normal')
-        ffmpeg_path.config(state='normal')
-        yt_url.config(state='normal')
+        for widget in root.winfo_children():
+            if not isinstance(widget, tk.Label) and not isinstance(widget, tk.Text) and not isinstance(widget, tk.Menu):
+                widget.config(state='normal')
 
 
 def execute_download():
@@ -120,7 +114,16 @@ def execute_download():
                 else:
                     print_error(f'Couldn\'t delete {title}.mp4.')
     else:
-        video_track = yt.streams.filter(progressive=False, file_extension='mp4').order_by('resolution')[-1]
+        video_track = \
+            yt.streams.filter(progressive=False, file_extension='mp4', resolution=resolution.get()).order_by('fps')
+
+        # if at least a video track with the given resolution was found, select the best one (highest fps)
+        if video_track:
+            video_track = video_track[-1]
+        # otherwise select the video track with the highest possible resolution and fps
+        else:
+            video_track = \
+                yt.streams.filter(progressive=False, file_extension='mp4').order_by('resolution').order_by('fps')[-1]
 
         print_status('Downloading video.mp4...')
         video_path = video_track.download(filename='video')
@@ -188,11 +191,15 @@ if __name__ == '__main__':
     root.geometry('813x450')
     root.resizable(0, 0)
 
+    resolution_list = ['2160p', '1440p', '1080p', '720p', '480p', '360p', '240p', '144p']
+    resolution = tk.StringVar()
+    resolution.set('2160p')
     gpu = tk.BooleanVar()
     audio_only = tk.BooleanVar()
 
     window_title = tk.Label(root, text='YouTube downloader')
     yt_url = DTEntry(root, default_text='YouTube link here')
+    resolution_menu = tk.OptionMenu(root, resolution, *resolution_list)
     ffmpeg_path = DTEntry(root, default_text='FFmpeg path here')
     browse_button = tk.Button(root, text='Browse', command=browse)
     gpu_checkbox = tk.Checkbutton(root, text='Use GPU (NVIDIA only)', variable=gpu, onvalue=True, offvalue=False)
@@ -204,6 +211,7 @@ if __name__ == '__main__':
 
     window_title.place(relx=0.232, rely=0.044, height=21, width=435)
     yt_url.place(relx=0.068, rely=0.178, height=30, relwidth=0.695)
+    resolution_menu.place(relx=0.8, rely=0.178, height=34, width=117)
     ffmpeg_path.place(relx=0.068, rely=0.311, height=30, relwidth=0.695)
     browse_button.place(relx=0.812, rely=0.311, height=34, width=97)
     gpu_checkbox.place(relx=0.062, rely=0.444, relheight=0.056, relwidth=0.316)
