@@ -178,10 +178,10 @@ def execute_download():
 
         print_status('Merging tracks...')
         try:
-            output = subprocess.check_output(f'{merge_command} \"{title}.mp4\"', shell=True)
+            pipeline(f'{merge_command} \"{title}.mp4\"')
             print_good(f'Tracks successfully merged into \"{title}.mp4\".')
-        except subprocess.CalledProcessError:
-            print_error(f'Couldn\'t merge tracks. Error code: {subprocess.CalledProcessError.returncode}.')
+        except Exception:
+            print_error('Couldn\'t merge tracks.')
 
         # delete redundant video and audio tracks
         print_status('Deleting redundant audio and video tracks...')
