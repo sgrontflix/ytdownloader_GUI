@@ -1,5 +1,6 @@
 from utilities import *
 from gui_classes import *
+from tkinter import ttk
 from tkinter import messagebox
 from tkinter import filedialog
 from threading import Thread
@@ -58,7 +59,10 @@ def monitor_download(thread):
         root.after(100, lambda: monitor_download(thread))
     else:
         for widget in root.winfo_children():
-            if not isinstance(widget, tk.Label) and not isinstance(widget, tk.Text) and not isinstance(widget, tk.Menu):
+            if isinstance(widget, ttk.Combobox):
+                widget.config(state='readonly')
+            elif not isinstance(widget, tk.Label) and not isinstance(widget, tk.Text) \
+                    and not isinstance(widget, tk.Menu):
                 widget.config(state='normal')
 
 
@@ -193,13 +197,14 @@ if __name__ == '__main__':
 
     resolution_list = ['2160p', '1440p', '1080p', '720p', '480p', '360p', '240p', '144p']
     resolution = tk.StringVar()
-    resolution.set('2160p')
     gpu = tk.BooleanVar()
     audio_only = tk.BooleanVar()
 
     window_title = tk.Label(root, text='YouTube downloader')
     yt_url = DTEntry(root, default_text='YouTube link here')
-    resolution_menu = tk.OptionMenu(root, resolution, *resolution_list)
+    resolution_menu = ttk.Combobox(root, textvariable=resolution, values=resolution_list, state='readonly')
+    # set default value (index 0, first element)
+    resolution_menu.current(0)
     ffmpeg_path = DTEntry(root, default_text='FFmpeg path here')
     browse_button = tk.Button(root, text='Browse', command=browse)
     gpu_checkbox = tk.Checkbutton(root, text='Use GPU (NVIDIA only)', variable=gpu, onvalue=True, offvalue=False)
