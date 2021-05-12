@@ -126,6 +126,8 @@ def execute_download():
             video_track = video_track[-1]
         # otherwise select the video track with the highest possible resolution and fps
         else:
+            print_error('Missing video track for the given resolution.')
+            print_status('Selecting the highest possible resolution video track.')
             video_track = \
                 yt.streams.filter(progressive=False, file_extension='mp4').order_by('resolution').order_by('fps')[-1]
 
