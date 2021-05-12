@@ -1,5 +1,6 @@
 import os
 import re
+import subprocess
 
 
 def youtube_url_validation(url):
@@ -51,6 +52,14 @@ def remove_files(files):
             pass
 
     return files
+
+
+def is_gpu_available():
+    try:
+        subprocess.check_output('nvidia-smi', shell=True)
+        return True
+    except Exception:
+        return False
 
 
 def print_status(string): print('[*] ' + string)
