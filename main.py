@@ -7,7 +7,6 @@ from threading import Thread
 from pathlib import Path
 from pytube import YouTube
 import sys
-import subprocess
 
 
 def browse():
@@ -36,7 +35,10 @@ def handle_download():
     :return: None
     """
     for widget in root.winfo_children():
-        if not isinstance(widget, tk.Label) and not isinstance(widget, tk.Text) and not isinstance(widget, tk.Menu):
+        if widget is gpu_checkbox:
+            if gpu_exists:
+                widget.config(state='disabled')
+        elif not isinstance(widget, tk.Label) and not isinstance(widget, tk.Text) and not isinstance(widget, tk.Menu):
             widget.config(state='disabled')
 
     dl = Thread(target=execute_download)
@@ -61,6 +63,9 @@ def monitor_download(thread):
         for widget in root.winfo_children():
             if isinstance(widget, ttk.Combobox):
                 widget.config(state='readonly')
+            elif widget is gpu_checkbox:
+                if gpu_exists:
+                    widget.config(state='normal')
             elif not isinstance(widget, tk.Label) and not isinstance(widget, tk.Text) \
                     and not isinstance(widget, tk.Menu):
                 widget.config(state='normal')
@@ -80,10 +85,6 @@ def execute_download():
     console_output.config(state='normal')
     console_output.delete(1.0, tk.END)
     console_output.config(state='disabled')
-
-    enable_gpu = ' -hwaccel cuda -hwaccel_output_format cuda'
-    merge_command = '\"' + ffmpeg_path.get() + '\" -y' + (enable_gpu if gpu.get() else '') + \
-                    ' -hide_banner -loglevel panic -i video.mp4 -i audio.mp4 -c:v copy -c:a copy'
 
     if not youtube_url_validation(yt_url.get()):
         messagebox.showerror('ERROR', 'Invalid URL detected')
@@ -118,6 +119,10 @@ def execute_download():
                 else:
                     print_error(f'Couldn\'t delete {title}.mp4.')
     else:
+        enable_gpu = ' -hwaccel cuda -hwaccel_output_format cuda'
+        merge_command = '\"' + ffmpeg_path.get() + '\" -y' + (enable_gpu if gpu.get() else '') + \
+                        ' -hide_banner -loglevel panic -i video.mp4 -i audio.mp4 -c:v copy -c:a copy'
+
         video_track = \
             yt.streams.filter(progressive=False, file_extension='mp4', resolution=resolution.get()).order_by('fps')
 
@@ -202,6 +207,9 @@ if __name__ == '__main__':
     gpu = tk.BooleanVar()
     audio_only = tk.BooleanVar()
 
+    # check if NVIDIA GPU exists
+    gpu_exists = is_gpu_available()
+
     window_title = tk.Label(root, text='YouTube downloader')
     yt_url = DTEntry(root, default_text='YouTube link here')
     resolution_menu = ttk.Combobox(root, textvariable=resolution, values=resolution_list, state='readonly')
@@ -209,8 +217,12 @@ if __name__ == '__main__':
     resolution_menu.current(0)
     ffmpeg_path = DTEntry(root, default_text='FFmpeg path here')
     browse_button = tk.Button(root, text='Browse', command=browse)
-    gpu_checkbox = tk.Checkbutton(root, text='Use GPU (NVIDIA only)', variable=gpu, onvalue=True, offvalue=False)
-    audio_only_checkbox = tk.Checkbutton(root, text='Audio only', variable=audio_only, onvalue=True, offvalue=False)
+    gpu_checkbox = tk.Checkbutton(root, text='Use GPU (NVIDIA only)', variable=gpu,
+                                  command=lambda: audio_only.set(False))
+    # disable checkbox if NVIDIA GPU does not exist
+    if not gpu_exists:
+        gpu_checkbox.config(state='disabled')
+    audio_only_checkbox = tk.Checkbutton(root, text='Audio only', variable=audio_only, command=lambda: gpu.set(False))
     console_output = tk.Text(root, state='disabled', wrap='word')
     download_button = tk.Button(root, text='Download', command=handle_download)
 
