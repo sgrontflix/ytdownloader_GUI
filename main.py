@@ -233,7 +233,7 @@ if __name__ == '__main__':
     resolution_menu.place(relx=0.8, rely=0.178, height=34, width=117)
     ffmpeg_path.place(relx=0.068, rely=0.311, height=30, relwidth=0.695)
     browse_button.place(relx=0.812, rely=0.311, height=34, width=97)
-    gpu_checkbox.place(relx=0.062, rely=0.444, relheight=0.056, relwidth=0.316)
+    gpu_checkbox.place(relx=0.049, rely=0.444, relheight=0.056, relwidth=0.341)
     audio_only_checkbox.place(relx=0.776, rely=0.444, relheight=0.056, relwidth=0.166)
     console_output.place(relx=0.068, rely=0.556, relheight=0.276, relwidth=0.866)
     download_button.place(relx=0.401, rely=0.889, height=34, width=159)
