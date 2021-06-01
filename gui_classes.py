@@ -28,7 +28,7 @@ class DTEntry(tk.Entry):
         tk.Entry.__init__(self, master, **kwargs)
         # set default text
         self.default_text = default_text
-        # execute focus_out() by default because there's
+        # execute focus_out() by default because there should be
         # no focus on any widget when the program is launched
         self.focus_out()
         # set FocusIn behavior
