@@ -7,15 +7,17 @@ A simple YouTube downloader written in Python with a GUI.
 Run the following commands:
 
 ```
-python -m pip install git+https://github.com/nficano/pytube
+python -m pip install git+https://github.com/pytube/pytube
 git clone https://github.com/sgrontflix/ytdownloader_GUI
+cd ytdownloader_GUI
 ```
 
 or 
 
 ```
-python3 -m pip install git+https://github.com/nficano/pytube
+python3 -m pip install git+https://github.com/pytube/pytube
 git clone https://github.com/sgrontflix/ytdownloader_GUI
+cd ytdownloader_GUI
 ```
 
 And get [FFmpeg](https://ffmpeg.org/download.html).
@@ -43,3 +45,19 @@ After installing FFmpeg, run `whereis ffmpeg` to get the full installation path.
 or
 
 `python3 main.py`
+
+## Issues
+
+If you encounter any issue, try upgrading your pytube release by running the following command:
+
+`python -m pip install git+https://github.com/pytube/pytube --upgrade`
+
+or
+
+`python3 -m pip install git+https://github.com/pytube/pytube --upgrade`
+
+If upgrading pytube doesn't fix your problem, try updating this project by running the following command inside the `ytdownloader_GUI` folder:
+
+`git pull origin main`
+
+If the script still doesn't work, please let me know by [creating an issue](https://github.com/sgrontflix/ytdownloader_GUI/issues/new).
