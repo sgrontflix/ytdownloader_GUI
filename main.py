@@ -6,6 +6,7 @@ from tkinter import filedialog
 from threading import Thread
 from pathlib import Path
 from pytube import YouTube
+from pytube.exceptions import VideoUnavailable
 import sys
 
 
@@ -96,6 +97,12 @@ def execute_download():
 
     # get yt link info
     yt = YouTube(yt_url.get())
+
+    try:
+        yt.check_availability()
+    except VideoUnavailable:
+        messagebox.showerror('ERROR', 'Video is unavailable')
+        return
 
     audio_track = yt.streams.filter(only_audio=True, file_extension='mp4').order_by('bitrate')[-1]
 
