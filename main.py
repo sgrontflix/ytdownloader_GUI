@@ -23,9 +23,11 @@ def browse():
                                           filetypes=(('Executable files', '*.exe'), ('All files', '*.*')))
 
     # clear input field before inserting new path
-    ffmpeg_path.delete(0, tk.END)
-    ffmpeg_path.config(fg='black')
-    ffmpeg_path.insert(0, filename)
+    # if 'filename' is not empty
+    if filename:
+        ffmpeg_path.delete(0, tk.END)
+        ffmpeg_path.config(fg='black')
+        ffmpeg_path.insert(0, filename)
 
 
 def handle_download():
