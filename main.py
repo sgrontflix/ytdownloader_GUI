@@ -209,7 +209,7 @@ if __name__ == '__main__':
     root.title('YouTube downloader by sgrontflix')
     root.option_add('*Font', 'Arial 16')
     root.geometry('813x450')
-    root.resizable(0, 0)
+    root.resizable(False, False)
 
     resolution_list = ['2160p', '1440p', '1080p', '720p', '480p', '360p', '240p', '144p']
     resolution = tk.StringVar()
