@@ -93,7 +93,7 @@ def execute_download():
         messagebox.showerror('ERROR', 'Invalid URL detected')
         return
 
-    if not Path(ffmpeg_path.get()).is_file():
+    if not audio_only.get() and (not ffmpeg_path.get() or not Path(ffmpeg_path.get()).is_file()):
         messagebox.showerror('ERROR', 'Invalid path detected')
         return
 
